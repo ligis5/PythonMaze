@@ -3,48 +3,52 @@ import numpy as np
 
 pygame.init()
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 800
+SCREEN_WIDTH = 1200
+SCREEN_HEIGHT = 1000
 
 clock = pygame.time.Clock()
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+# change how big squares are
+grid_density = 20
 
+# Making 2D array
 def grid_array():
-    i = 20
+    i = 0
     x = []
     while i < SCREEN_WIDTH:
         x.append(i)
-        i+=20
-    j = 20
+        i+=grid_density
+    j = 0
     y = []
     while j < SCREEN_HEIGHT:
         y.append(j)
-        j += 20
+        j += grid_density
 
     x_array = np.array(x)
     y_array = np.array(y)
     X, Y = np.meshgrid(x_array, y_array)
     return X, Y
 
+
+
 def draw_cells(grid):
-    i = 0
-    while i < len(grid):
-        j = 0
-        while j < len(grid[0]):
-            j+=1
-            k = 0
-            while k < len(grid[0][0]):
-                print(grid[i][j][k])
-                # pygame.draw.line(screen, (255, 0, 100), (grid[i][j][k], grid[1][0][0]), (grid[i][j][k], grid[1][0][0]),2)
-                k+=1
-        i+=1
+        for j in range(len(grid[0])):
+            for x in range(len(grid[0][0])):
+                for y in range(len(grid[1][0])):
+                    # X axis lines
+                    pygame.draw.line(screen, (60, 60, 60), (grid[0][j][x], grid[1][j][y]), (grid[0][j][x] + grid_density, grid[1][j][y]),2)
+                    # Y axis lines
+                    pygame.draw.line(screen, (60, 60, 60), (grid[0][j][y], grid[1][j][x]),
+                                     (grid[0][j][y], grid[1][j][x] + grid_density), 2)
 
 loop = True
 
+grid = grid_array()
+
 while loop:
     screen.fill((0,0,0))
-    draw_cells(grid_array())
+    draw_cells(grid)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             loop = False
