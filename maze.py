@@ -1,10 +1,11 @@
 import pygame
-import numpy as np
 
 pygame.init()
 
-SCREEN_WIDTH = 1204
-SCREEN_HEIGHT = 1004
+WALL_THICKNESS = 2
+
+SCREEN_WIDTH = 1200
+SCREEN_HEIGHT = 1200
 
 clock = pygame.time.Clock()
 
@@ -14,21 +15,17 @@ grid_density = 40
 
 # Making 2D array
 def grid_array():
-    i = 2
-    x = []
+    i = 0
+    grid = []
     while i <= SCREEN_WIDTH:
-        x.append({"x":i,"exist": True})
         i+=grid_density
-    j = 2
-    y = []
-    while j <= SCREEN_HEIGHT:
-        y.append({"y":j,"exist": True})
-        j += grid_density
-
-    x_array = np.array(x)
-    y_array = np.array(y)
-    X, Y = np.meshgrid(x_array, y_array)
-    return X, Y
+        j = 0
+        x_grid = []
+        while j <= SCREEN_HEIGHT:
+            x_grid.append([j])
+            j += grid_density
+        grid.append(x_grid)
+    return grid
 
 def find_walls(grid):
 
@@ -41,11 +38,20 @@ def mazify_grid(grid):
 def draw_cells(grid):
         for j in range(len(grid[0])):
             for x in range(len(grid[0][0])):
+                # X axis lines
+                if x == 0 or x == len(grid[0][0]) - 1:
+                    pygame.draw.rect(screen, (120, 0, 60), [grid[0][j][x]["x"], grid[1][j][0]["y"], grid[0][j][x]["x"] + grid_density, grid[1][j][0]["y"]], 2)
+                else:
+                    pygame.draw.line(screen, (60, 120, 60), (grid[0][j][x]["x"], grid[1][j][0]["y"]),
+                                     (grid[0][j][x]["x"] + grid_density, grid[1][j][0]["y"]), 2)
+
                 for y in range(len(grid[1][0])):
-                    # X axis lines
-                    pygame.draw.line(screen, (60, 120, 60), (grid[0][j][x]["x"], grid[1][j][y]["y"]), (grid[0][j][x]["x"] + grid_density, grid[1][j][y]["y"]),2)
                     # Y axis lines
-                    pygame.draw.line(screen, (60, 120, 60), (grid[0][j][y]["x"], grid[1][j][x]["y"]),
+                    if y == 0 or y == len(grid[1][0]) - 1:
+                        pygame.draw.line(screen, (120, 0, 60), (grid[0][j][y]["x"], grid[1][j][x]["y"]),
+                                         (grid[0][j][y]["x"], grid[1][j][x]["y"] + grid_density), 2)
+                    else:
+                        pygame.draw.line(screen, (60, 120, 60), (grid[0][j][y]["x"], grid[1][j][x]["y"]),
                                      (grid[0][j][y]["x"], grid[1][j][x]["y"] + grid_density), 2)
 
 loop = True
@@ -54,11 +60,12 @@ loop = True
 grid = grid_array()
 find_walls(grid)
 
-mazify_grid(grid)
-print(grid[1][23])
+# mazify_grid(grid)
+print(grid)
 while loop:
     screen.fill((0,0,0))
-    draw_cells(grid)
+
+    # draw_cells(grid)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             loop = False
