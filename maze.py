@@ -1,5 +1,6 @@
 import pygame
 from cell import Cell
+import random
 
 pygame.init()
 
@@ -32,6 +33,13 @@ def create_cells(grid):
 
 cells = create_cells(grid_array())
 
+def create_maze(c):
+    starting_cell = random.randint(0, len(c))
+    print(starting_cell)
+
+create_maze(cells)
+
+
 loop = True
 
 while loop:
@@ -39,11 +47,14 @@ while loop:
     i = 0
     while i < len(grid_array()):
         cells[i].draw_cell()
+        r = random.randint(0, 10)
+        if r > 7:
+            cells[i].change_wall_status(random.choice([True, False]),random.choice([True, False]),random.choice([True, False]),random.choice([True, False]))
         i+= 1
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             loop = False
-    clock.tick(10)
+    clock.tick(5)
     pygame.display.update()
 
 pygame.quit()
