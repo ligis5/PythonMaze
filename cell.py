@@ -7,27 +7,24 @@ class Cell():
         self.cell_size = cell_size
         self.screen = screen
         self.color = (100, 60, 80)
-        self.top = True
-        self.left = True
-        self.bottom = True
-        self.right = True
+        self.walls = {"top": True, "left": True, "bottom": True, "right": True}
         self.neighbours = {}
 
 
     def draw_cell(self):
         #top
-        if self.top:
+        if self.walls["top"]:
             pygame.draw.line(self.screen, self.color, (self.pos_x, self.pos_y), (self.pos_x + self.cell_size, self.pos_y), 2)
         # left
-        if self.left:
+        if self.walls["left"]:
             pygame.draw.line(self.screen, self.color, (self.pos_x, self.pos_y), (self.pos_x, self.pos_y + self.cell_size),
                          2)
         # bottom
-        if self.bottom:
+        if self.walls["bottom"]:
             pygame.draw.line(self.screen, self.color, (self.pos_x + self.cell_size, self.pos_y  + self.cell_size), (self.pos_x, self.pos_y  + self.cell_size),
                          2)
         # right
-        if self.right:
+        if self.walls["right"]:
             pygame.draw.line(self.screen, self.color, (self.pos_x + self.cell_size, self.pos_y),
                          (self.pos_x + self.cell_size, self.pos_y + self.cell_size),
                          2)

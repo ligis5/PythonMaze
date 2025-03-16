@@ -10,6 +10,10 @@ class Grid():
         self.cell_size = cell_size
         self.grid = []
         self.cells = []
+        self.grid_array()
+        self.create_cells()
+        self.find_neighbours()
+        self.change_cell_color()
 
     # Creating 2D array
     def grid_array(self):
@@ -50,16 +54,17 @@ class Grid():
                     neighbours.update({"top": (self.cells[i + (j - 1) * r]), "bottom": (self.cells[i + (j + 1) * r])})
                 self.cells[i + j * r].set_neighbours(neighbours)
 
-    def cells_change_status(self):
+    def show_cells(self):
         i = 0
         while i < len(self.cells):
             self.cells[i].draw_cell()
-            r = random.randint(0, 10)
-            if r > 7:
-                self.cells[i].set_wall_status(random.choice([True, False]), random.choice([True, False]),
-                                         random.choice([True, False]), random.choice([True, False]))
+            # r = random.randint(0, 10)
+            # if r > 7:
+            #     self.cells[i].set_wall_status(random.choice([True, False]), random.choice([True, False]),
+            #                              random.choice([True, False]), random.choice([True, False]))
             i += 1
     def change_cell_color(self):
         self.cells[10].set_color((0,100,0))
         self.cells[10].neighbours["right"].set_color((100, 100 ,100))
+
 

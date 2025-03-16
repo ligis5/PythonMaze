@@ -1,5 +1,5 @@
 import pygame
-
+import random
 from grid import Grid
 
 pygame.init()
@@ -9,27 +9,28 @@ SCREEN_HEIGHT = 840
 grid_cell_size = 40
 
 clock = pygame.time.Clock()
-
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 grid = Grid(screen, SCREEN_WIDTH, SCREEN_HEIGHT, grid_cell_size)
-grid.grid_array()
-grid.create_cells()
-grid.find_neighbours()
-grid.change_cell_color()
 
-#
-# def create_maze(c):
-#     starting_cell = random.randint(0, len(c))
-#     print(starting_cell)
-#
-# create_maze(cells)
+
+def starting_cell():
+    cell = grid.cells[random.randint(0, len(grid.cells))]
+    return cell
+
+starting_cell().color = (20,50,250)
+
+def maze_creation(cells):
+    for i in range(len(cells)):
+        pass
+
+# maze_creation(grid.cells)
 
 loop = True
 
 while loop:
     screen.fill((0,0,0))
-    grid.cells_change_status()
+    grid.show_cells()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             loop = False
