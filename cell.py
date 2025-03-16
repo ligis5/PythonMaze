@@ -1,18 +1,50 @@
 import pygame
 
 class Cell():
-    def __init__(self, s_width, s_height, pos_in_list_x, pos_in_list_y):
-        self.SCREEN_WIDTH = s_width
-        self.SCREEN_HEIGHT = s_height
-        self.pos_in_list_x = pos_in_list_x
-        self.pos_in_list_y = pos_in_list_y
-        self.left_wall = True
-        self.top_wall = True
-        self.right_wall = True
-        self.bottom_wall = True
+    def __init__(self, screen, cell_pos_x, cell_pos_y, cell_size):
+        self.pos_x = cell_pos_x
+        self.pos_y = cell_pos_y
+        self.cell_size = cell_size
+        self.screen = screen
+        self.color = (100, 60, 80)
+        self.top = True
+        self.left = True
+        self.bottom = True
+        self.right = True
+        self.neighbours = {}
 
-    def give_position(self):
 
-        pass
+    def draw_cell(self):
+        #top
+        if self.top:
+            pygame.draw.line(self.screen, self.color, (self.pos_x, self.pos_y), (self.pos_x + self.cell_size, self.pos_y), 2)
+        # left
+        if self.left:
+            pygame.draw.line(self.screen, self.color, (self.pos_x, self.pos_y), (self.pos_x, self.pos_y + self.cell_size),
+                         2)
+        # bottom
+        if self.bottom:
+            pygame.draw.line(self.screen, self.color, (self.pos_x + self.cell_size, self.pos_y  + self.cell_size), (self.pos_x, self.pos_y  + self.cell_size),
+                         2)
+        # right
+        if self.right:
+            pygame.draw.line(self.screen, self.color, (self.pos_x + self.cell_size, self.pos_y),
+                         (self.pos_x + self.cell_size, self.pos_y + self.cell_size),
+                         2)
+    def set_wall_status(self, top, left, bottom, right):
+        self.top = top
+        self.left = left
+        self. bottom = bottom
+        self.right = right
+
+    def set_neighbours(self, neighbours):
+        self.neighbours = neighbours
+
+    def set_color(self, color):
+        self.color = color
+
+
+
+
 
 
