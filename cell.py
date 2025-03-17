@@ -8,7 +8,8 @@ class Cell():
         self.screen = screen
         self.color = (100, 60, 80)
         self.walls = {"top": True, "left": True, "bottom": True, "right": True}
-        self.neighbours = {}
+        self.neighbours = {"top": None, "left": None, "bottom": None, "right": None}
+        self.visited = False
 
 
     def draw_cell(self):
@@ -28,11 +29,8 @@ class Cell():
             pygame.draw.line(self.screen, self.color, (self.pos_x + self.cell_size, self.pos_y),
                          (self.pos_x + self.cell_size, self.pos_y + self.cell_size),
                          2)
-    def set_wall_status(self, top, left, bottom, right):
-        self.top = top
-        self.left = left
-        self. bottom = bottom
-        self.right = right
+    def set_wall_status(self, wall, wall_status):
+        self.walls.update({wall: wall_status})
 
     def set_neighbours(self, neighbours):
         self.neighbours = neighbours
