@@ -18,20 +18,21 @@ first_cell = grid.cells[random.randint(0, len(grid.cells))]
 first_cell.color = (20,50,250)
 
 def choose_wall(cell):
-    wall = random.choice(list(cell.walls))
-    for i in cell.walls.values():
-        if i: break
-        else: wall = None
-    if cell.walls[wall] == False: choose_wall(cell)
-    else: return wall
+    cell_walls_exist = []
+    for i in range(len(cell.walls)):
+        if list(cell.walls.values())[i]:
+            cell_walls_exist.append(list(cell.walls.keys())[i])
+    if cell_walls_exist:
+        return random.choice(cell_walls_exist)
+    else: return False
 
 def choose_rand_neighbour_cell(cell):
-    c = random.choice(list(cell.neighbours.values()))
-    for i in cell.neighbours.values():
-        if i.visited == False: break
-        else: c = None
-    if c.visited: choose_rand_neighbour_cell(cell)
-    else: return c
+    n_cells = []
+    for i in range(len(cell.neighbours)):
+        key = list(cell.neighbours.keys())[i]
+        if cell.neighbours[key]:
+            n_cells.append(cell.neighbours[key])
+    if n_cells: return random.choice(n_cells)
 
 def maze_creation(cell):
     cell_wall = choose_wall(cell)
@@ -43,13 +44,14 @@ def maze_creation(cell):
         if cell_wall == "right": neighbour_wall = "left"
         # choosing next cell based on last wall opened, right wall equals right neighbour cell etc.
         next_cell = cell.neighbours[cell_wall]
-        if next_cell.visited: choose_rand_neighbour_cell(cell)
-        else:
+        if next_cell and next_cell.visited:
             next_cell.set_wall_status(neighbour_wall, False)
+            maze_creation(next_cell)
+        else:
+           maze_creation(choose_rand_neighbour_cell(cell))
         cell.visited = True
 
 maze_creation(first_cell)
-
 
 loop = True
 
